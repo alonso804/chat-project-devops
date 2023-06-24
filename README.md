@@ -1,36 +1,64 @@
 # chat-project-devops
 
-## Docker network
-```sh
-docker network create my-network
-```
-
-## Docker mongo
-```sh
-docker run \
-  --name=my-mongo-name \
-  --rm \
-  --network=my-network \
-  -e MONGO_INITDB_ROOT_USERNAME=my-username \
-  -e MONGO_INITDB_ROOT_PASSWORD=my-password \
-  mongo:6.0.6
-```
-
-## Docker backend
-```sh
-docker build -t my-docker-backend .
-```
+## Clone repositories
 
 ```sh
-docker run \
-  --name=my-backend \
-  --rm \
-  --network=my-network \
-  -p=3000:3000 \
-  -e MONGODB_URI=mongodb://my-mongo-name:27017/my-mongo-db \
-  -e JWT_SECRET=my-jwt-secret \
-  -e PORT=3000 \
-  -e CLIENT_URI=https://localhost:3001 \
-  -it \
-  my-docker-backend
+# Backend
+git clone https://github.com/alonso804/chat-project-backend.git
+
+# Frontend
+git clone https://github.com/alonso804/chat-project-frontend.git
+```
+
+After clone the repositories, follow `README.md`'s instructions
+
+## Install tools
+* [Kubectl](https://kubernetes.io/docs/tasks/tools/)
+* [Minikube](https://minikube.sigs.k8s.io/docs/start/)
+* [Prometheus and Grafana](https://brain2life.hashnode.dev/prometheus-and-grafana-setup-in-minikube)
+
+## Docker
+1. Build frontend:
+```sh
+cd path/to/frontend
+
+docker build encrypted-chat-frontend .
+```
+
+2. Build backend:
+```sh
+cd path/to/backend
+
+docker build encrypted-chat-backend .
+```
+
+## Minikube
+1. Start minikube
+```sh
+minikube start
+```
+
+2. Upload images to minikube
+```sh
+# Frontend
+minikube image load encrypted-chat-frontend
+
+# Backend
+minikube image load encrypted-chat-backend
+```
+
+## Kubectl
+1. Download `kube` folder
+2. Fill the `.yaml` files with your env variables
+3. Apply
+```sh
+cd path/to/kube
+
+cd ..
+
+kubectl apply -f kube
+```
+4. Open frontend
+```sh
+minikube service encrypted-chat-frontend --url
 ```
