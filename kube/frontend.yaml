@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: encrypted-chat-frontend
+spec:
+  selector:
+    app: encrypted-chat-frontend
+  ports:
+  - port: 3000
+    targetPort: 3000
+    nodePort: 30000
+  type: NodePort
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: encrypted-chat-frontend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: encrypted-chat-frontend
+  template:
+    metadata:
+      labels:
+        app: encrypted-chat-frontend
+    spec:
+      containers:
+      - name: encrypted-chat-frontend
+        image: encrypted-chat-frontend
+        ports:
+        - containerPort: 3000
+        imagePullPolicy: Never
