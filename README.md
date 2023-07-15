@@ -87,6 +87,9 @@ kubectl apply -f kube
 minikube service encrypted-chat-frontend --url
 ```
 
+### Note
+If you are not using `https` you have to add the URI to `Insecure origins treated as secure` (brave: `brave://flags/#unsafely-treat-insecure-origin-as-secure`) to use WebCryptoAPI.
+
 ## Testing
 1. Download `tests` folder
 2. Update `httpHostname` and `wsHostname`
